@@ -68,6 +68,9 @@ public class Game {
 				if (scanInt < 1 || scanInt > g.selectedWord.length()) {
 					System.out.println("Input error, please enter an int between 1 and " + g.selectedWord.length());
 				}
+				if (lines.charAt(scanInt-1) != '_') {
+					System.out.println("You've already guessed the character at " + scanInt + ", please enter a different number!");
+				}
 				else {
 					intRecieved = true;
 					lines.setCharAt(scanInt - 1, g.mixedWord[j]);
