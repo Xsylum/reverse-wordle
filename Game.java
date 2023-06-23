@@ -2,6 +2,8 @@
  *
  * TO DO: - bring up to JavaDoc standards
  *		  - find list of words online, shorten down using regex to 4-7 character words
+ *
+ * Bugs: - can type in the same spot, replacing the letters
  */
  
 import java.text.MessageFormat;
@@ -42,6 +44,7 @@ public class Game {
 	
 	public static void main(String[] args) {
 		Game g = new Game();
+		Scanner scanner = new Scanner(System.in);
 		System.out.println(g);
 		StringBuilder lines = new StringBuilder(); // More efficient implementation of StringBuffer? Read up on it;  Should this be a class variable?
 		
@@ -49,13 +52,37 @@ public class Game {
 			lines.append('_');
 		}
 		lines.append("  ");
-		System.out.println(lines);
 		
 		for (int j = 0; j < g.wordLength; j++){
 			lines.deleteCharAt(g.wordLength + 1);
 			lines.append(g.mixedWord[j]);
 			System.out.println(lines);
+			
+			
+			boolean intRecieved = false;
+			System.out.println("which position is this character in? (type 1 to "
+								+ g.selectedWord.length() + ")");
+			while (!intRecieved) {
+				int scanInt = scanner.nextInt();
+				
+				if (scanInt < 1 || scanInt > g.selectedWord.length()) {
+					System.out.println("Input error, please enter an int between 1 and " + g.selectedWord.length());
+				}
+				else {
+					intRecieved = true;
+					lines.setCharAt(scanInt - 1, g.mixedWord[j]);
+				}
+			}
 		}
+		
+		lines.delete(lines.length() - 2, lines.length());
+		
+		if (lines.toString().equals(g.selectedWord)) {
+			System.out.println("Game Over! you typed: \"" + lines + "\" which was the word!");
+		} else {
+			System.out.println("Game Over! you typed: \"" + lines + "\" but the word was: " + g.selectedWord);
+		}
+		
 		
 	
 	}
