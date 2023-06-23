@@ -9,6 +9,7 @@
 import java.text.MessageFormat;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Game {
 	
@@ -62,18 +63,29 @@ public class Game {
 			boolean intRecieved = false;
 			System.out.println("which position is this character in? (type 1 to "
 								+ g.selectedWord.length() + ")");
+								
 			while (!intRecieved) {
-				int scanInt = scanner.nextInt();
-				
-				if (scanInt < 1 || scanInt > g.selectedWord.length()) {
+				try {
+					int scanInt = scanner.nextInt();
+					if (scanInt < 1 || scanInt > g.selectedWord.length()) {
 					System.out.println("Input error, please enter an int between 1 and " + g.selectedWord.length());
+					}
+					else if (lines.charAt(scanInt-1) != '_') {
+						System.out.println("You've already guessed the character at " + scanInt + ", please enter a different number!");
+					}
+					else {
+						intRecieved = true;
+						lines.setCharAt(scanInt - 1, g.mixedWord[j]);
+					}
 				}
-				if (lines.charAt(scanInt-1) != '_') {
-					System.out.println("You've already guessed the character at " + scanInt + ", please enter a different number!");
-				}
-				else {
-					intRecieved = true;
-					lines.setCharAt(scanInt - 1, g.mixedWord[j]);
+				/*
+				 * Program fails setting due to scanner input not being an int,
+				 * Scanner.next() to "clear" the current scanner data, ending exception
+				 * 
+				 */
+				catch (InputMismatchException e) {
+					System.out.println("\"" + scanner.next() + "\" is not an integer! Enter again");
+					continue; // restarts the while loop, which attempts try again
 				}
 			}
 		}
