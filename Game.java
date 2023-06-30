@@ -10,6 +10,9 @@ import java.text.MessageFormat;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public class Game {
 	
@@ -24,7 +27,25 @@ public class Game {
 	}
 	
 	public String randomWordSelect() {
-		return "test";  // Have this pull from a list of possible words
+		
+		try {
+			String output;
+			String wordFilePath = "5LetterWords.txt";
+			
+			BufferedReader reader = new BufferedReader(new FileReader(wordFilePath));
+			int randomLine = new Random().nextInt(15920); // 15920 five-letter words in file. Might be good to have reader determine line count
+			
+			for (int i = 0; i < randomLine; i++) {
+				reader.readLine();
+			}
+			output = reader.readLine();
+			System.out.println(randomLine);
+			return output;
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			throw new IllegalStateException();
+		}
 	}
 	
 	public char[] mixLetters(String s) {
@@ -45,8 +66,9 @@ public class Game {
 	
 	public static void main(String[] args) {
 		Game g = new Game();
+		//System.out.println(g); // Debug line, prints out selected word and rearranged order on game start
+		
 		Scanner scanner = new Scanner(System.in);
-		System.out.println(g);
 		StringBuilder lines = new StringBuilder(); // More efficient implementation of StringBuffer? Read up on it;  Should this be a class variable?
 		
 		for (int i = 0; i < g.wordLength; i++){
