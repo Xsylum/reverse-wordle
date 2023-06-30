@@ -30,16 +30,30 @@ public class Game {
 		
 		try {
 			String output;
-			String wordFilePath = "5LetterWords.txt";
+			String wordFilePath = "5LetterWords.txt"; // The dictionary of words to use
 			
+			// Checking the number of lines/words in the file
 			BufferedReader reader = new BufferedReader(new FileReader(wordFilePath));
-			int randomLine = new Random().nextInt(15920); // 15920 five-letter words in file. Might be good to have reader determine line count
+			int lineCount = 0;
+			while ((reader.readLine()) != null) {
+				lineCount++;
+			}
+			reader.close();
+			System.out.println(lineCount);
 			
+			// A random int is chosen from 0 to lineCount (exclusive), which is the chosen word
+			int randomLine = new Random().nextInt(lineCount);
+			//System.out.println(randomLine); // DEBUG: Shows what line from list was chosen
+			
+			// Starts again from the top of the dictionary, and moves through until the chosen word is found
+			reader = new BufferedReader(new FileReader(wordFilePath));
 			for (int i = 0; i < randomLine; i++) {
 				reader.readLine();
 			}
+			
 			output = reader.readLine();
-			//System.out.println(randomLine); // Debug: Shows what line from list was chosen
+			reader.close();
+			
 			return output;
 		}
 		catch (IOException e) {
@@ -66,7 +80,7 @@ public class Game {
 	
 	public static void main(String[] args) {
 		Game g = new Game();
-		//System.out.println(g); // Debug line, prints out selected word and rearranged order on game start
+		//System.out.println(g); // DEBUG: prints out selected word and rearranged order on game start
 		
 		Scanner scanner = new Scanner(System.in);
 		StringBuilder lines = new StringBuilder(); // More efficient implementation of StringBuffer? Read up on it;  Should this be a class variable?
