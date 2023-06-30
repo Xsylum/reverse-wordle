@@ -39,7 +39,7 @@ public class Game {
 				reader.readLine();
 			}
 			output = reader.readLine();
-			System.out.println(randomLine);
+			//System.out.println(randomLine); // Debug: Shows what line from list was chosen
 			return output;
 		}
 		catch (IOException e) {
